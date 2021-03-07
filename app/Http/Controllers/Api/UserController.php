@@ -67,58 +67,16 @@ class UserController extends Controller
             'avatar' => $avatar
         ]);
 
-        $credentials = ['email'=>$request->email, 'password'=>$request->password];
-        $login =  auth()->attempt($credentials); // return true of fail
-
+        // tries to log user in after registration
+        $credentials = $request->only('email','password');
+            //['email'=>$request->email, 'password'=>$request->password];
+        if(!auth()->attempt($credentials)){
+            $response = MessageResponse::successResponse("Please log in to continue");
+            return response()->json($response);
+        }
 
         $response = MessageResponse::successResponse("User Created Successful", $user);
-
         return response()->json($response);
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
     }
 
     public function logout(){
@@ -128,6 +86,39 @@ class UserController extends Controller
         }
 
         return \response()->json(MessageResponse::errorResponse("User not logged in"));
+
+    }
+
+    public function login(Request $request){
+
+        $validator = Validator::make($request->all(), [
+            'email' => ['required','email','min:5'],
+            'password' => ['required','string', 'min:6'],
+        ]);
+
+        if ($validator->fails()) {
+            // 401 Unauthorized, The requested page needs a username and a password.
+            $response = MessageResponse::errorResponse("Invalid Credentials", $validator->errors());
+            return response($response, 401);
+        }
+
+//        if(auth()->check()){
+//            $request->session()->regenerate();
+//            // regenerate jwt token here
+//        }
+
+        $credentials = $request->only('email','password');
+        // return 401 Unauthorized user for failed login
+        if(!auth()->attempt($credentials) ){
+            // 401 Unauthorized, The requested page needs a username and a password.
+            $response = MessageResponse::errorResponse("Login failed");
+            return response($response, 401);
+        }
+
+        return \response()
+            ->json(MessageResponse::successResponse("Login successful",
+                                                    ['token'=>'']
+                                                    ));
 
     }
 }

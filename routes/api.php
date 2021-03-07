@@ -22,4 +22,8 @@ Route::group(['prefix'=>"/v1/"], function(){
     Route::get('/', [\App\Http\Controllers\Api\UserController::class,'index']);
     Route::POST('/register', [\App\Http\Controllers\Api\UserController::class,'store'])->name('register');
     Route::POST('/logout', [\App\Http\Controllers\Api\UserController::class,'logout'])->name('logout');
+    Route::POST('/login', [\App\Http\Controllers\Api\UserController::class,'login'])->name('login');
+
+    Route::POST('/my/jobs', [\App\Http\Controllers\Api\UserController::class,'createJob'])->name('createjob')->middleware(['auth']);
+
 });
