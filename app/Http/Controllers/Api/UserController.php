@@ -27,24 +27,13 @@ class UserController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function register(Request $request)
     {
-
         $validator = Validator::make($request->all(), [
             'name' => ['required','string','min:3'],
             'email' => ['required','email','min:5','unique:users'],
@@ -67,25 +56,14 @@ class UserController extends Controller
             'avatar' => $avatar
         ]);
 
-        // tries to log user in after registration
-        $credentials = $request->only('email','password');
-            //['email'=>$request->email, 'password'=>$request->password];
-        if(!auth()->attempt($credentials)){
-            $response = MessageResponse::successResponse("Please log in to continue");
-            return response()->json($response);
-        }
-
         $response = MessageResponse::successResponse("User Created Successful", $user);
         return response()->json($response);
     }
 
     public function logout(){
-        if(auth()->check()){
+
             auth()->logout();
             return \response()->json(MessageResponse::successResponse("Successfully logged out user"));
-        }
-
-        return \response()->json(MessageResponse::errorResponse("User not logged in"));
 
     }
 
@@ -102,23 +80,16 @@ class UserController extends Controller
             return response($response, 401);
         }
 
-//        if(auth()->check()){
-//            $request->session()->regenerate();
-//            // regenerate jwt token here
-//        }
-
-        $credentials = $request->only('email','password');
+        $credentials = $request->only(['email','password']);
         // return 401 Unauthorized user for failed login
-        if(!auth()->attempt($credentials) ){
+        if(!$token = auth()->attempt($credentials) ){
             // 401 Unauthorized, The requested page needs a username and a password.
             $response = MessageResponse::errorResponse("Login failed");
             return response($response, 401);
         }
 
         return \response()
-            ->json(MessageResponse::successResponse("Login successful",
-                                                    ['token'=>'']
-                                                    ));
-
+                ->json( MessageResponse::successResponse("Login successful", ['token'=>$token] ));
     }
+
 }

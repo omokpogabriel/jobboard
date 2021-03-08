@@ -26,7 +26,7 @@ class JobCategory implements Rule
     public function passes($attribute, $value)
     {
         $job_category = ['tech','health care','hospitality','customer service','marketing'];
-        if(in_array(strtolower($value), job_category)){
+        if(in_array(strtolower($value), $job_category)){
             return true;
         }
     }

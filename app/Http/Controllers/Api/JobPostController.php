@@ -1,8 +1,11 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Api;
 
+use App\Http\Controllers\Controller;
 use App\Models\JobPost;
+use App\Models\WorkCondition;
+use App\Rules\JobCategory;
 use App\Rules\JobType;
 use App\Rules\WorkConditionRules;
 use App\Services\MessageResponse;
@@ -11,100 +14,50 @@ use Illuminate\Support\Facades\Validator;
 
 class JobPostController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        //
-    }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
+    public function createJob(Request $request){
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function createJob(Request $request)
-    {
-        $validator = Validator::make($request,[
+        $validator = Validator::make($request->all(),[
+            'title' => ['required','string','min:4'],
+            'description' => ['required', 'string'],
+            'location' => ['required', 'string'],
             'work_condition' => ['required',new WorkConditionRules()],
             'type' =>['required',new JobType()],
             'category' => ['required',new JobCategory()],
-            'title' => ['required','string','min:4'],
-            'company' => ['required', 'string', 'min:3'],
-            'company_logo' => ['string'],
             'salary' => ['required','string', 'min:7'],
-            'description' => ['required', 'string'],
-            'benefits' => ['required', 'string'],
+            'benefits' => ['required', 'string']
         ]);
 
         if($validator->fails()){
             $response = MessageResponse::errorResponse("Unable to post job", $validator->errors());
-            return response($response, 409);
+            return response()->json($response, 400);
         }
 
-        // create new job post
+        $filter = explode($request->title);
+        $lastRefSegement="";
+
+        foreach ($filter as $filters){
+            $lastRef .=$filters[0];
+        }
+
+
+        $id = 'FJB-'.random(10000,99999).'-'.$lastRefSegement;
+//       $work_condition = WorkCondition::where('work_condition', $request->work_condition)->get('id');
         JobPost::create([
+            //company
+            'id' => $id,
+            'title' => $request->title,
+            'description' => $request->description,
+            'location' => $request->location,
+            'work_condition' => $request->work_condition,
+            'type' =>$request->type,
+            'category' => $request->category,
+            'salary' => $request->salary,
+            'benefits' => $request->benefits
+
 
         ]);
-
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
-    }
 }
