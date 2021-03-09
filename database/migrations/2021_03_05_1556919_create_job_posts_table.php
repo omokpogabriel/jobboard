@@ -19,17 +19,18 @@ class CreateJobPostsTable extends Migration
             $table->string("company")->nullable(false);
             $table->string("company_logo");
             $table->string("location")->nullable(false);
-            $table->integer("category");
+            $table->string("category");
             $table->string("salary")->nullable(false);
             $table->text("description")->nullable(false);
             $table->string("benefits");
-            $table->integer("type");
-            $table->integer("work_condition");
-            $table->integer("posted_by");
+            $table->string("type");
+            $table->string("work_condition");
+            $table->bigInteger("posted_by")->nullable(false);
             $table->timestamps();
-            $table->foreign('category')->references("id")->on("job_category_table");
-            $table->foreign('type')->references("id")->on("job_type_table");
-            $table->foreign("work_condition")->references("id")->on("work_condition_table");
+            $table->foreign('posted_by')->references('id')->on('users');
+//            $table->foreign('category')->references("id")->on("job_category_table");
+//            $table->foreign('type')->references("id")->on("job_type_table");
+//            $table->foreign("work_condition")->references("id")->on("work_condition_table");
         });
     }
 

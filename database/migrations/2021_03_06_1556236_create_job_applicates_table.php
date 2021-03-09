@@ -17,12 +17,13 @@ class CreateJobApplicatesTable extends Migration
             $table->bigIncrements("id");
             $table->string("first_name")->nullable(false);
             $table->string("last_name")->nullable(false);
-            $table->string("email")->nullable(false)->unique();
-            $table->string("phone")->nullable(false)->unique();
+            $table->string("email")->nullable(false);
+            $table->string("phone")->nullable(false);
             $table->string("location");
             $table->string("cv")->nullable(false);
-            $table->string("job_applied_for")->nullable(false);
+            $table->string("job_id")->nullable(false);
             $table->timestamps();
+            $table->foreign('job_id','job_id')->references('id')->on('job_posts');
         });
     }
     /**

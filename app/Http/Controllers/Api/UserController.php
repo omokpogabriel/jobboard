@@ -16,24 +16,16 @@ use Illuminate\Support\Facades\Validator;
  */
 class UserController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        return response()->json("welcome to my json", 200);
-    }
 
     /**
-     * Store a newly created resource in storage.
+     * Store a new registered users
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
     public function register(Request $request)
     {
+        // validates the user inputs
         $validator = Validator::make($request->all(), [
             'name' => ['required','string','min:3'],
             'email' => ['required','email','min:5','unique:users'],
@@ -41,6 +33,7 @@ class UserController extends Controller
             'role' => [new Roles()]
         ]);
 
+        // checks if the validation fails
         if ($validator->fails()) {
             $response = MessageResponse::errorResponse("Unable to create New User", $validator->errors());
             return response($response, 409);
@@ -49,6 +42,7 @@ class UserController extends Controller
         // creates a default avatar url based on the user name
         $avatar = "https://ui-avatars.com/api/?name=".rawurlencode($request->name);
 
+        // creates a new user
         $user = User::create([
            'name' => $request->name,
            'email' => $request->email,
@@ -60,13 +54,25 @@ class UserController extends Controller
         return response()->json($response);
     }
 
+    /**
+     * logs the user out by invalidating the token
+     * @return \Illuminate\Http\JsonResponse|string
+     */
     public function logout(){
-
-            auth()->logout();
-            return \response()->json(MessageResponse::successResponse("Successfully logged out user"));
+            try{
+                $this->guard()->logout();
+                return \response()->json(MessageResponse::successResponse("Successfully logged out user"));
+            }catch(Tymon\JWTAuth\Exceptions\JWTException $ex){
+                return "issues";
+            }
 
     }
 
+    /**
+     * logs a user in and returns a jwt token
+     * @param Request $request
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\JsonResponse|\Illuminate\Http\Response
+     */
     public function login(Request $request){
 
         $validator = Validator::make($request->all(), [
@@ -84,7 +90,7 @@ class UserController extends Controller
         // return 401 Unauthorized user for failed login
         if(!$token = auth()->attempt($credentials) ){
             // 401 Unauthorized, The requested page needs a username and a password.
-            $response = MessageResponse::errorResponse("Login failed");
+            $response = MessageResponse::errorResponse("Invalid username or password");
             return response($response, 401);
         }
 
