@@ -27,10 +27,11 @@ Route::group(['prefix'=>"/v1/"], function(){
     Route::GET('/jobs/', [\App\Http\Controllers\Api\JobPostController::class, 'showAllJobs'])->name('showalljob');
     Route::POST('/job/{job_id}/apply', [\App\Http\Controllers\Api\JobApplicationController::class, 'apply'])
             ->name('apply');
+    Route::POST('/logout', [\App\Http\Controllers\Api\UserController::class,'logout'])->name('logout');
 
 
     Route::group(['middleware'=>'biz_user'], function() {
-        Route::POST('/logout', [\App\Http\Controllers\Api\UserController::class,'logout'])->name('logout');
+
         Route::POST('/my/jobs', [\App\Http\Controllers\Api\JobPostController::class, 'createJob'])->name('createjob');
         Route::DELETE('/my/jobs/{job_id}', [\App\Http\Controllers\Api\JobPostController::class, 'deleteJob'])->name('deletejob');
         Route::GET('/my/jobs', [\App\Http\Controllers\Api\JobPostController::class, 'showMyJobs'])->name('showmyjobs');
