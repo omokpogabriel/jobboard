@@ -2,10 +2,12 @@
 
 namespace App\Rules;
 
+use App\Models\WorkCondition;
 use Illuminate\Contracts\Validation\Rule;
 
 class WorkConditionRules implements Rule
 {
+    private $conditions;
     /**
      * Create a new rule instance.
      *
@@ -13,7 +15,7 @@ class WorkConditionRules implements Rule
      */
     public function __construct()
     {
-        //
+        $this->conditions = WorkCondition::pluck('work_condition')->toArray();
     }
 
     /**
@@ -26,7 +28,7 @@ class WorkConditionRules implements Rule
     public function passes($attribute, $value)
     {
         $conditions = ['remote','part remote', 'on-premise'];
-        if( in_array(strtolower($value), $conditions)){
+        if( in_array(strtolower($value), $this->conditions)){
             return true;
         }
     }
@@ -38,6 +40,6 @@ class WorkConditionRules implements Rule
      */
     public function message()
     {
-        return ':attribute can only be remote,part remote, on-premise';
+        return ':attribute can only be '.implode(',' , $this->conditions);
     }
 }

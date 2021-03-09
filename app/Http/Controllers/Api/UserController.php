@@ -60,7 +60,7 @@ class UserController extends Controller
      */
     public function logout(){
             try{
-                $this->guard()->logout();
+                auth()->invalidate(true);;
                 return \response()->json(MessageResponse::successResponse("Successfully logged out user"));
             }catch(Tymon\JWTAuth\Exceptions\JWTException $ex){
                 return "issues";
@@ -87,13 +87,17 @@ class UserController extends Controller
         }
 
         $credentials = $request->only(['email','password']);
+
+        // checks if the user is already logged in
+
+
         // return 401 Unauthorized user for failed login
         if(!$token = auth()->attempt($credentials) ){
             // 401 Unauthorized, The requested page needs a username and a password.
             $response = MessageResponse::errorResponse("Invalid username or password");
             return response($response, 401);
         }
-
+        return $token;
         return \response()
                 ->json( MessageResponse::successResponse("Login successful", ['token'=>$token] ));
     }

@@ -6,6 +6,7 @@ use Illuminate\Contracts\Validation\Rule;
 
 class JobType implements Rule
 {
+    private $job_type;
     /**
      * Create a new rule instance.
      *
@@ -13,7 +14,7 @@ class JobType implements Rule
      */
     public function __construct()
     {
-        //
+        $this->job_type= \App\Models\JobType::pluck('job_type')->toArray();
     }
 
     /**
@@ -26,7 +27,7 @@ class JobType implements Rule
     public function passes($attribute, $value)
     {
         $job_type = ['full-time','temporary','contract','permanent','internship','volunteer'];
-        if(in_array(strtolower($value), $job_type)){
+        if(in_array(strtolower($value), $this->job_type)){
             return true;
         }
     }
@@ -38,6 +39,6 @@ class JobType implements Rule
      */
     public function message()
     {
-        return ':attribute can only be Full-time, Temporary, Contract, Permanent, Internship, Volunteer';
+        return ':attribute can only be '.implode(',' , $this->job_type);
     }
 }
