@@ -3,9 +3,11 @@
 namespace App\Rules;
 
 use Illuminate\Contracts\Validation\Rule;
+use App\Models\JobCategory as Jobs;
 
 class JobCategory implements Rule
 {
+    private  $job_category;
     /**
      * Create a new rule instance.
      *
@@ -13,7 +15,7 @@ class JobCategory implements Rule
      */
     public function __construct()
     {
-        //
+        $this->job_category = Jobs::pluck('job_category')->toArray();
     }
 
     /**
@@ -25,8 +27,8 @@ class JobCategory implements Rule
      */
     public function passes($attribute, $value)
     {
-        $job_category = ['tech','health care','hospitality','customer service','marketing'];
-        if(in_array(strtolower($value), $job_category)){
+//        $this->job_category = Jobs::get()->toArray();//['tech','health care','hospitality','customer service','marketing'];
+        if(in_array(strtolower($value), $this->job_category)){
             return true;
         }
     }
@@ -38,6 +40,6 @@ class JobCategory implements Rule
      */
     public function message()
     {
-        return ':attribute can only be Tech, Health care , Hospitality, Customer service, Marketing ';
+        return ":attribute can only be ".implode(',', $this->job_category);
     }
 }

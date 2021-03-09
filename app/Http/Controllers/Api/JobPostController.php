@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\JobPost;
+use App\Models\User;
 use App\Models\WorkCondition;
 use App\Rules\JobCategory;
 use App\Rules\JobType;
@@ -25,6 +26,7 @@ class JobPostController extends Controller
      * @return \Illuminate\Http\JsonResponse
      */
     public function createJob(Request $request){
+
         // validates the user input
         $validator = Validator::make($request->all(),[
             'title' => ['required','string','min:3'],
@@ -57,9 +59,9 @@ class JobPostController extends Controller
 
         // stores the new job post
         $post = User::findOrFail(auth()->user()->id)->jobposts()->create([
-            //company
-            'id' => $id,
+
             'title' => $request->title,
+            'id' => $id,
             'description' => $request->description,
             'location' => $request->location,
             'company' => auth()->user()->name,
