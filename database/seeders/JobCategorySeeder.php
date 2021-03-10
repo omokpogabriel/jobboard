@@ -2,8 +2,8 @@
 
 namespace Database\Seeders;
 
-use Carbon\Traits\Date;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\DB;
 
 class JobCategorySeeder extends Seeder
