@@ -21,9 +21,9 @@ class CreateJobApplicatesTable extends Migration
             $table->string("phone")->nullable(false);
             $table->string("location");
             $table->string("cv")->nullable(false);
-            $table->string("job_id")->nullable(false);
+            $table->string("job_id")->nullable();
             $table->timestamps();
-            $table->foreign('job_id','job_id')->references('id')->on('job_posts');
+            $table->foreign('job_id','job_id')->references('id')->on('job_posts')->nullOnDelete();
         });
     }
     /**

@@ -59,7 +59,7 @@ class UserController extends Controller
      * @return \Illuminate\Http\JsonResponse|string
      */
     public function logout(){
-               $loggedout =  auth()->invalidate(true);;
+               $loggedout =  auth()->invalidate(true);
                 return \response()->json(MessageResponse::successResponse("User logged out"));
     }
 
