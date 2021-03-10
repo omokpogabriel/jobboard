@@ -45,7 +45,7 @@ class JobApplicationController extends Controller
         try{
 
             // create a new unique name for the uploaded cv
-            $cv_name = $request->first_name.'_'.$request->last_name.'_'.$job_id.'_'.uniqid();
+            $cv_name = $request->first_name.'_'.$request->last_name.'_'.$job_id.'_'.uniqid().'.'.$request->file('cv')->extension();
 
             //check if the job id exist, get the object if true
             $job = JobPost::findOrFail($job_id);

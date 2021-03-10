@@ -185,7 +185,7 @@ class JobPostController extends Controller
         }
 
         try{
-            $post = JobPost::findOrFail($id);
+            $post =   JobPost::where('posted_by', auth()->user()->id)->findOrFail($id);
             $post->title = $request->title;
             $post->save();
 
