@@ -1,7 +1,7 @@
 
 # About Jobboard Api
 
-Jobboard api designed to 
+Jobboard api designed with php that enables companies to post jobs as well as applicates to apply for jobs posted by these companies.
 
 ## Installtion procedure
 
@@ -14,7 +14,7 @@ Jobboard api designed to
     - php artisan storage:link
     
     
-Please reach out to me if you have any issues setting up this project
+<i>Please reach out to me if you have any issues setting up this project</i>
 
 ## The api endpoints are:
 
@@ -75,7 +75,7 @@ Please reach out to me if you have any issues setting up this project
   -- OneToMany relationship between Job_posts and job_applicates_table  
  
 
-# Assumptions/ rational 
+# Assumptions/Rational 
 
 - The company and company logo in the job_post table where let because i was nto sure if a user can post jobs belonging to other companies. an example could be a recruitment agencies. hense i didnt couple those fields with the values in users table even though they have oneToMany Relationship
 - In deleteJob(), The assumption is that a user can only delete a post he posted before. that is, you cannot delete another user's post
