@@ -7,7 +7,7 @@ Jobboard api designed with php that enables companies to post jobs as well as ap
 - Auth: jwt-auth
 
 
-## Installtion procedure
+## Installation procedure
 
  - git pull this repo
  - run composer install
