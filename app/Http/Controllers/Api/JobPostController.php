@@ -112,8 +112,8 @@ class JobPostController extends Controller
      */
     public function showJob($id){
         try{
-            $remove_post = JobPost::findOrFail($id);
-            return response()->json($remove_post, 200);
+            $fetch_post = JobPost::findOrFail($id);
+            return response()->json($fetch_post, 200);
         }catch (ModelNotFoundException $ex){
             return response()->json("JOB ID: $id NOT FOUND", 404);
         }
