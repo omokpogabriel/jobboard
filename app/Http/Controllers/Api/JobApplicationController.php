@@ -30,7 +30,7 @@ class JobApplicationController extends Controller
             'first_name' => ['required','string','min:3'],
             'last_name' => ['required','string','min:3'],
             'email' => ['required','email'],
-            'phone' => ['required','string','min:8'],
+            'phone' => ['required','string','min:8','max:13'],
             'location' => ['required','string','min:3'],
             'cv' => ['required','mimes:pdf,doc,docx,jpeg,bmp,png']
 
