@@ -22,7 +22,7 @@ Route::group(['prefix'=>"/v1/"], function(){
     Route::GET('/', [\App\Http\Controllers\Api\UserController::class,'index']);
     Route::POST('/register', [\App\Http\Controllers\Api\UserController::class,'register'])->name('register');
 
-    Route::POST('/login', [\App\Http\Controllers\Api\UserController::class,'login'])->name('login');
+    Route::GET('/login', [\App\Http\Controllers\Api\UserController::class,'login'])->name('login');
     Route::GET('/jobs/{job_id}', [\App\Http\Controllers\Api\JobPostController::class, 'showJob'])->name('showjob');
     Route::GET('/jobs/', [\App\Http\Controllers\Api\JobPostController::class, 'showAllJobs'])->name('showalljob');
     Route::POST('/job/{job_id}/apply', [\App\Http\Controllers\Api\JobApplicationController::class, 'apply'])

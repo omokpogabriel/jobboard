@@ -27,7 +27,6 @@ class JobCategory implements Rule
      */
     public function passes($attribute, $value)
     {
-//        $this->job_category = Jobs::get()->toArray();//['tech','health care','hospitality','customer service','marketing'];
         if(in_array(strtolower($value), $this->job_category)){
             return true;
         }
