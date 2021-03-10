@@ -100,3 +100,5 @@ Jobboard api designed with php that enables companies to post jobs as well as ap
 - biz_user : ensure that the request is authenticated and has a role of "business"
 
 
+## challenges
+- had an error issue with Cygwin
