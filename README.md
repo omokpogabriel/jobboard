@@ -15,6 +15,7 @@ Jobboard api designed with php that enables companies to post jobs as well as ap
  - run
     - php artisan migrate
     - php artisan db:seed --force
+    -  php artisan jwt:generate
     - php artisan storage:link
     
     
