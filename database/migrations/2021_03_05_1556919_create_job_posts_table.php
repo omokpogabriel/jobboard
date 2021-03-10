@@ -27,7 +27,7 @@ class CreateJobPostsTable extends Migration
             $table->string("work_condition");
             $table->bigInteger("posted_by")->nullable(false);
             $table->timestamps();
-            $table->foreign('posted_by')->references('id')->on('users');
+            $table->foreign('posted_by')->references('id')->on('users')->onDelete('cascade');
 //            $table->foreign('category')->references("id")->on("job_category_table");
 //            $table->foreign('type')->references("id")->on("job_type_table");
 //            $table->foreign("work_condition")->references("id")->on("work_condition_table");
