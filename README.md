@@ -53,7 +53,7 @@ Jobboard api designed with php that enables companies to post jobs as well as ap
  - Search job post by title [GET] - http://127.0.0.1:8000/api/v1/my/jobs?q=frontend
  -  Update a job post title [PATCH] - http://127.0.0.1:8000/api/v1/my/jobs/{JOB_id}
      -  {
-         - "title": "Backend Developer Needed urgently",
+         - "title": "Backend Developer Needed urgently"
      - }
  
  - apply for a job [POST] - http://127.0.0.1:8000/api/v1/job/FJB-24165-FDN/apply
@@ -73,11 +73,12 @@ Jobboard api designed with php that enables companies to post jobs as well as ap
  - Number of tables : 6
  - Relationships:
   -- OneToMany relationship between Job_posts and job_applicates_table  
+  -- OneToMany relationship between user and Job_posts 
  
 
 # Assumptions/Rational 
 
-- The company and company logo in the job_post table where let because i was nto sure if a user can post jobs belonging to other companies. an example could be a recruitment agencies. hense i didnt couple those fields with the values in users table even though they have oneToMany Relationship
-- In deleteJob(), The assumption is that a user can only delete a post he posted before. that is, you cannot delete another user's post
+- The company and company logo in the job_post table where set because it wasn't specified whether user can post jobs belonging to other companies. an example could be a recruitment agencies. hense i didnt couple those fields with the values in users table even though they have oneToMany Relationship.
+- In deleteJob(), The assumption is that a user can only delete a post he posted before. that is, you cannot delete another user's post.
 - The User table has a role field with default value of business, the rational here is that we can have different users with difference roles <br/>
   such as admin, superadmin, etc

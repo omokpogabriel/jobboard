@@ -15,7 +15,7 @@ class AddUserRoles extends Migration
     {
         Schema::table('users', function (Blueprint $table) {
             $table->string("roles")->nullable(false)
-                ->default("guest")->after("password");
+                ->default("business")->after("password");
             $table->boolean("isEnabled")->default(true);
         });
     }
