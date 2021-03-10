@@ -15,6 +15,7 @@ Jobboard api is a Tedbree Backend Developer Assessment designed with php that en
  - run composer install
  - setup the .env file as appropriate
  - run
+    - php artisan key:generate
     - php artisan migrate
     - php artisan db:seed --force
     -  php artisan jwt:secret
