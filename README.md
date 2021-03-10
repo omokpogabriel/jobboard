@@ -2,6 +2,10 @@
 # About Jobboard Api
 
 Jobboard api designed with php that enables companies to post jobs as well as applicates to apply for jobs posted by these companies.
+- language: Php
+- DBMS: postgresql
+- Auth: jwt-auth
+
 
 ## Installtion procedure
 
@@ -81,4 +85,17 @@ Jobboard api designed with php that enables companies to post jobs as well as ap
 - The company and company logo in the job_post table where set because it wasn't specified whether user can post jobs belonging to other companies. an example could be a recruitment agencies. hense i didnt couple those fields with the values in users table even though they have oneToMany Relationship.
 - In deleteJob(), The assumption is that a user can only delete a post he posted before. that is, you cannot delete another user's post.
 - The User table has a role field with default value of business, the rational here is that we can have different users with difference roles <br/>
-  such as admin, superadmin, etc
+  such as admin, superadmin, etc.
+- The accepted values of the job categories are those on the job_category table 
+- The accepted values for work_condition are those in the work_condition table
+- The accepted values for job types are those in the job type table
+
+## Custom validate rules
+- JobCategory::class check the job category to make sure they are those in the job category tables
+- JobType::class check the job type to make sure they are those in the job type tables
+- WorkConditionRules::class check the work condition to make sure they are those in the work_condition tables
+
+## middleware
+- biz_user : ensure that the request is authenticated and has a role of "business"
+
+
