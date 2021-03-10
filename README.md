@@ -95,7 +95,7 @@ Jobboard api designed with php that enables companies to post jobs as well as ap
 - JobType::class check the job type to make sure they are those in the job type tables
 - WorkConditionRules::class check the work condition to make sure they are those in the work_condition tables
 
-## middleware
+## Middleware
 - biz_user : ensure that the request is authenticated and has a role of "business"
 
 
