@@ -3,7 +3,7 @@
 
 # About Jobboard Api
 
-Jobboard api designed with php that enables companies to post jobs as well as applicates to apply for jobs posted by these companies.
+Jobboard api is a Tedbree Backend Developer Assessment designed with php that enables companies to post jobs as well as applicates to apply for jobs posted by these companies.
 - language: Php
 - DBMS: postgresql
 - Auth: jwt-auth
